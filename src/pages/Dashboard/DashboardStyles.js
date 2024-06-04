@@ -7,6 +7,16 @@ export const dashboardStyles = StyleSheet.create({
     backgroundColor: '#020a17',
     color: '#FFFFFF',
   },
+  backgroundText: {
+    position: 'absolute',
+    bottom: 30,
+    opacity: 0.2,
+    fontSize:36,
+    fontWeight:'900',
+    lineHeight:54,
+    width:'60%',
+    textAlign:'center'
+  },
   topSection: {
     display: 'flex',
     flexDirection: 'row',
@@ -62,6 +72,12 @@ export const dashboardStyles = StyleSheet.create({
     width: 50,
     paddingVertical: 24,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color:'#fff',
+  },
   deleteButton: {
     backgroundColor: 'red',
     justifyContent: 'center',
@@ -86,4 +102,9 @@ export const dashboardStyles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+  footer: {
+    fontSize:16,
+    fontWeight:'500',
+    textAlign:'center'
+  }
 });

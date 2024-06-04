@@ -5,6 +5,7 @@ import realm from '../../RealmInstance';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {dashboardStyles as styles} from './DashboardStyles';
+import {NEWS_API_KEY} from '@env';
 
 const Dashboard = () => {
   const [headlines, setHeadlines] = useState([]);
@@ -16,15 +17,16 @@ const Dashboard = () => {
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const swipeableRefs = useRef(new Map());
   const intervalRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Function to fetch articles from API
   const fetchArticles = async () => {
     try {
       const response = await axios.get('https://newsapi.org/v2/everything', {
         params: {
-          q: 'tesla',
-          sortBy: 'publishedAt',
-          apiKey: 'c41def85179842bcb8ae4376a953e4a1',
+          q: 'apple',
+          sortBy: 'popularity',
+          apiKey: NEWS_API_KEY,
           pageSize: 100,
         },
       });
@@ -47,6 +49,7 @@ const Dashboard = () => {
       setHeadlineCount(10);
       setIndex(10);
       setPinnedHeadlines([]);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching headlines:', error);
     }
@@ -180,26 +183,38 @@ const Dashboard = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topSection}>
-        <Text style={styles.heading}>Latest News</Text>
-        <TouchableOpacity
-          style={[styles.refreshButton, isHovered && styles.refreshButtonHover]}
-          onPress={handleRefresh}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}>
-          <Text style={styles.refreshButtonText}>Refresh</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.headingCount}>
-        Showing {headlineCount} of {articles.length} Headlines
-      </Text>
-      <FlatList
-        style={styles.headingList}
-        data={[...pinnedHeadlines, ...headlines]}
-        renderItem={renderHeadline}
-        keyExtractor={item => item.url}
-        contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-start'}}
-      />
+      {isLoading ? (
+        <View style={styles.loading}>
+          <Text style={{fontSize: 24, fontWeight: 700}}>Loading...</Text>
+        </View>
+      ) : (
+        <>
+          <View style={styles.topSection}>
+            <Text style={styles.heading}>Latest News</Text>
+            <TouchableOpacity
+              style={[
+                styles.refreshButton,
+                isHovered && styles.refreshButtonHover,
+              ]}
+              onPress={handleRefresh}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}>
+              <Text style={styles.refreshButtonText}>Refresh</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.headingCount}>
+            Showing {headlineCount} of {articles.length} Headlines
+          </Text>
+          <Text style={styles.backgroundText}>Made With Love By Baisali</Text>
+          <FlatList
+            style={styles.headingList}
+            data={[...pinnedHeadlines, ...headlines]}
+            renderItem={renderHeadline}
+            keyExtractor={item => item.url}
+            contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-start'}}
+          />
+        </>
+      )}
     </View>
   );
 };
