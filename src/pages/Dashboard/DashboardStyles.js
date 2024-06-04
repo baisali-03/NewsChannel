@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const dashboardStyles = StyleSheet.create({
   container: {
@@ -7,15 +7,27 @@ export const dashboardStyles = StyleSheet.create({
     backgroundColor: '#020a17',
     color: '#FFFFFF',
   },
+  subHeadingSection: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  timerText: {
+    fontSize: 10,
+    fontWeight: '300',
+    lineHeight: 15,
+    textAlign: 'left',
+    color: '#F9FAFB',
+  },
   backgroundText: {
     position: 'absolute',
     bottom: 30,
     opacity: 0.2,
-    fontSize:36,
-    fontWeight:'900',
-    lineHeight:54,
-    width:'60%',
-    textAlign:'center'
+    fontSize: 36,
+    fontWeight: '900',
+    lineHeight: 54,
+    width: '60%',
+    textAlign: 'center',
   },
   topSection: {
     display: 'flex',
@@ -76,7 +88,7 @@ export const dashboardStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    color:'#fff',
+    color: '#fff',
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -103,8 +115,8 @@ export const dashboardStyles = StyleSheet.create({
     fontWeight: '600',
   },
   footer: {
-    fontSize:16,
-    fontWeight:'500',
-    textAlign:'center'
-  }
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
 });

@@ -20,10 +20,10 @@ export const splashStyles = StyleSheet.create({
     left: 0,
     right: 0,
     width: width,
-    height: '32%',
+    height: '35%',
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+  
   },
   text: {
     fontSize: 48,

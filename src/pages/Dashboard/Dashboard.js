@@ -15,8 +15,10 @@ const Dashboard = () => {
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const swipeableRefs = useRef(new Map());
   const intervalRef = useRef(null);
+  const countdownRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Function to fetch articles from API
@@ -81,9 +83,9 @@ const Dashboard = () => {
       setIndex(prevIndex => prevIndex + 5);
       setHeadlineCount(prevCount => prevCount + 5);
     } else {
-      // Fetch new articles if all headlines have been displayed
       fetchArticles();
     }
+    setCountdown(5);
   }, [index, articles]);
 
   // Fetch articles after initial load completion
@@ -97,15 +99,26 @@ const Dashboard = () => {
     }
   }, [initialLoadComplete]);
 
-  // Start interval to fetch next headline
+  // Start interval to fetch next headline and countdown timer
   useEffect(() => {
     if (articles.length > 0) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current);
+      }
       intervalRef.current = setInterval(fetchNextHeadline, 5000);
+      countdownRef.current = setInterval(() => {
+        setCountdown(prevCountdown =>
+          prevCountdown > 1 ? prevCountdown - 1 : 5,
+        );
+      }, 1000);
     }
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      clearInterval(countdownRef.current);
+    };
   }, [articles, fetchNextHeadline]);
 
   // Handle refresh button click
@@ -115,6 +128,7 @@ const Dashboard = () => {
     }
     fetchNextHeadline();
     intervalRef.current = setInterval(fetchNextHeadline, 5000);
+    setCountdown(5); // Reset countdown timer
   };
 
   // Function to delete a headline
@@ -202,10 +216,16 @@ const Dashboard = () => {
               <Text style={styles.refreshButtonText}>Refresh</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.headingCount}>
-            Showing {headlineCount} of {articles.length} Headlines
-          </Text>
+          <View style={styles.subHeadingSection}>
+            <Text style={styles.headingCount}>
+              Showing {headlineCount} of {articles.length} Headlines
+            </Text>
+            <Text style={styles.timerText}>
+              Auto Refresh In {countdown} Secs
+            </Text>
+          </View>
           <Text style={styles.backgroundText}>Made With Love By Baisali</Text>
+
           <FlatList
             style={styles.headingList}
             data={[...pinnedHeadlines, ...headlines]}
