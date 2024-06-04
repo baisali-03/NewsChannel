@@ -18,7 +18,7 @@ const SplashScreen = () => {
           width: 200,
           height: 200,
         }}
-        source={require('../../Lottie/newsLottie.json')}
+        source={require('../../../Lottie/newsLottie.json')}
         autoPlay
         loop
       />
