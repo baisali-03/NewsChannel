@@ -22,24 +22,17 @@ const SplashScreen = () => {
         autoPlay
         loop
       />
-      <Text style={styles.heading}>Welcome to the Latest News App </Text>
     </View>
   );
 };
 
-// Styles for the component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'#fff',
   },
-  heading: {
-    fontSize:16,
-    color:'#020a17',
-    fontWeight:'700',
-    paddingVertical: 10,
-  }
 });
 
 export default SplashScreen;

@@ -7,7 +7,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import SplashScreen from './src/pages/SpalashScreen'; 
-import Dashboard from './src/pages/Dashboard';
+import Dashboard from './src/pages/Dashboard/Dashboard';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
