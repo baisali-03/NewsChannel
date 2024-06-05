@@ -1,11 +1,15 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 import realm from '../../RealmInstance';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {dashboardStyles as styles} from './DashboardStyles';
 import {NEWS_API_KEY} from '@env';
+
+const images = {
+  image1: require('../../../public/NewsLogo.png'),
+};
 
 const Dashboard = () => {
   const [headlines, setHeadlines] = useState([]);
@@ -26,8 +30,8 @@ const Dashboard = () => {
     try {
       const response = await axios.get('https://newsapi.org/v2/everything', {
         params: {
-          q: 'apple',
-          sortBy: 'popularity',
+          q: 'tesla',
+          sortBy: 'publishedAt',
           apiKey: NEWS_API_KEY,
           pageSize: 100,
         },
@@ -128,7 +132,7 @@ const Dashboard = () => {
     }
     fetchNextHeadline();
     intervalRef.current = setInterval(fetchNextHeadline, 5000);
-    setCountdown(5); // Reset countdown timer
+    setCountdown(5);
   };
 
   // Function to delete a headline
@@ -159,7 +163,7 @@ const Dashboard = () => {
   };
 
   // Function to render right actions for swipeable headlines
-  const renderRightActions = (url, isPinned) => (
+  const renderRightActions = (url) => (
     <View style={styles.actionButtons}>
       <TouchableOpacity
         onPress={() => pinHeadline(url)}
@@ -199,10 +203,13 @@ const Dashboard = () => {
     <View style={styles.container}>
       {isLoading ? (
         <View style={styles.loading}>
-          <Text style={{fontSize: 24, fontWeight: 700}}>Loading...</Text>
+          <Text style={{fontSize: 24, fontWeight: 700, color: '#fff'}}>
+            Loading...
+          </Text>
         </View>
       ) : (
         <>
+          <Image source={images['image1']} style={styles.logoIcon} />
           <View style={styles.topSection}>
             <Text style={styles.heading}>Latest News</Text>
             <TouchableOpacity
@@ -224,8 +231,6 @@ const Dashboard = () => {
               Auto Refresh In {countdown} Secs
             </Text>
           </View>
-          <Text style={styles.backgroundText}>Made With Love By Baisali</Text>
-
           <FlatList
             style={styles.headingList}
             data={[...pinnedHeadlines, ...headlines]}
